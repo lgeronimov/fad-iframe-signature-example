@@ -20,6 +20,11 @@ const CONFIGURATION = {
     instructions: true,
     preview: true
   },
+  selfie: {
+    captureSelfie: false,
+    imageType: 'image/png',
+    imageQuality: 1
+  },
   customization: {
     fadCustomization: {
       colors: {
@@ -80,9 +85,29 @@ const CONFIGURATION = {
         buttonNext: 'Confirmar firma'
       }
     },
+    iOS: {
+      videoConstraints: {
+        video: {
+          width: { min: 640, ideal: 640, max: 1920 },
+          height: { min: 480, ideal: 480 , max: 1080},
+          facingMode: 'user'
+        },
+        audio: true
+      }
+    },
+    android: {
+      videoConstraints: {
+        video: {
+          width: { min: 640, ideal: 640, max: 1920 },
+          height: { min: 480, ideal: 480 , max: 1080},
+          facingMode: 'user'
+        },
+        audio: true
+      }
+    },
   },
   pathDependencies: {
-    imageDirectory: 'ASSETS_URL/'
+    // imageDirectory: 'ASSETS_URL/'
   }
 };
 
@@ -97,7 +122,8 @@ const ERROR_CODE = {
   VIDEO_EMPTY: -7,
   INVALID_SIGNATURE: -8,
   FAIL_LOAD_WASM: -9,
-  NOT_READABLE_CAMERA: -10
+  NOT_READABLE_CAMERA: -10,
+  MEDIA_RECORDER_NOT_SUPPORTED: -11,
 };
 
 // models
@@ -115,11 +141,13 @@ class Result {
   videoSignature; // video as Blob
   imageSignature;
   signatureData; // 
+  selfie; //image as base64 string
   constructor(data) {
     this.videoFace = data.videoFace;
     this.videoSignature = data.videoSignature;
     this.imageSignature = data.imageSignature;
     this.signatureData = data.signatureData;
+    this.selfie = data.selfie;
   }
 }
 
@@ -127,20 +155,29 @@ class Result {
 window.addEventListener("message", (message) => {
   // IMPORTANT: check the origin of the data
   if (message.origin.includes("firmaautografa.com")) {
-    if (message.data.event === EVENT_MODULE.MODULE_READY) { // MODULE_READY
+    if (message.data.event === EVENT_MODULE.MODULE_READY) { 
+      // MODULE_READY
+      // the modules is reaady for receive configuration
       initModule();
-    } else if (message.data.event === EVENT_MODULE.PROCESS_INIT) { // PROCESS_INIT
+    } else if (message.data.event === EVENT_MODULE.PROCESS_INIT) { 
+      // PROCESS_INIT
       // only informative
       console.log("Process init");
-    } else if (message.data.event === EVENT_MODULE.CAMERA_ACCEPTED) { // PRROCESS_ERROR
+    } else if (message.data.event === EVENT_MODULE.CAMERA_ACCEPTED) { 
+      // CAMERA_ACCEPTED
       // only informative
       console.log("Camera accepted");
-    } else if (message.data.event === EVENT_MODULE.MODULE_CLOSED) { // PRROCESS_ERROR
+    } else if (message.data.event === EVENT_MODULE.MODULE_CLOSED) { 
+      // MODULE_CLOSED
       // module closed, the user clicked (X)
       console.log("module closed");
-    } else if (message.data.event === EVENT_MODULE.PROCESS_ERROR) { // PRROCESS_ERROR
+    } else if (message.data.event === EVENT_MODULE.PROCESS_ERROR) { 
+      // PRROCESS_ERROR
+      // show the error and try again
       console.error(message.data.data);
-    } else if (message.data.event === EVENT_MODULE.PROCESS_COMPLETED) { // PROCESS_COMPLETED
+    } else if (message.data.event === EVENT_MODULE.PROCESS_COMPLETED) { 
+      // PROCESS_COMPLETED
+      // use the result as yuo fit
       alert("Process completed");
       const result = new Result(message.data.data);
       const faceVideoUrl = URL.createObjectURL(result.videoFace);
@@ -169,9 +206,8 @@ function initIframe() {
   // get iframe
   const iframe = document.getElementById("fad-iframe-signature");
   // url - https://devapiframe.firmaautografa.com/fad-iframe-signature
-  const username = "exapmle@email.com";
-  const password = "password";
-  const url = `https://devapiframe.firmaautografa.com/fad-iframe-signature?user=${username}&pwd=${password}`;
+  const tkn = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+  const url = `https://devapiframe.firmaautografa.com/fad-iframe-signature?tkn=${tkn}`;
   // set src to iframe
   iframe.src = url;
 }
