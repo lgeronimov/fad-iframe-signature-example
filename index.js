@@ -40,6 +40,11 @@ const CONFIGURATION = {
      borderStyle: 'solid',
      borderWidth: '1px',
     },
+    secondary: {
+     backgroundColor: '#363636ad',
+     labelColor: '#ffffff',
+     borderColor: '#ffffff',
+    },
     common: {
      backgroundColorDisabled: '#dcdcdc',
      labelColorDisabled: '#8e8e8e',
