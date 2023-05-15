@@ -24,6 +24,10 @@ const CONFIGURATION = {
   imageType: 'image/png',
   imageQuality: 1,
  },
+ timer: {
+  recording: { min: 2, max: 15 },
+  faceUndetected: 5,
+ },
  customization: {
   fadCustomization: {
    colors: {
