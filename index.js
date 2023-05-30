@@ -82,8 +82,8 @@ const CONFIGURATION = {
     focusFace: 'Enfoca tu rostro dentro de la guía',
     common: {
      loader: {
-      initializing: 'iniciando2',
-      processing: 'procesando2',
+      initializing: 'iniciando',
+      processing: 'procesando',
      },
     },
    },
