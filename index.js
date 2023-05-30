@@ -80,12 +80,12 @@ const CONFIGURATION = {
     buttonFinish: 'Terminar',
     recording: 'Grabando',
     focusFace: 'Enfoca tu rostro dentro de la guía',
-		common: {
-			loader: {
-				initializing: 'iniciando2',
-				processing: 'procesando2',
-			}
-		}
+    common: {
+     loader: {
+      initializing: 'iniciando2',
+      processing: 'procesando2',
+     },
+    },
    },
    legendsInstructions: {
     title: 'Video firma',
