@@ -31,9 +31,6 @@ const CONFIGURATION = {
  customization: {
   fadCustomization: {
    colors: {
-    primary: '#A70635',
-    secondary: '#A70635',
-    tertiary: '#363636',
     succesful: '#5A9A92',
    },
    buttons: {
@@ -81,10 +78,14 @@ const CONFIGURATION = {
    legends: {
     tapInstruction: 'Da un toque en el recuadro para empezar a firmar',
     buttonFinish: 'Terminar',
-    initializing: 'iniciando',
-    processing: 'procesando',
     recording: 'Grabando',
     focusFace: 'Enfoca tu rostro dentro de la guía',
+		common: {
+			loader: {
+				initializing: 'iniciando2',
+				processing: 'procesando2',
+			}
+		}
    },
    legendsInstructions: {
     title: 'Video firma',
